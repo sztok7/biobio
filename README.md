@@ -1,0 +1,2 @@
+# biobio
+Bioinformatika projekt
