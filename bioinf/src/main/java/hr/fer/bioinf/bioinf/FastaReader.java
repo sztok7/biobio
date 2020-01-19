@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.javatuples.Pair;
 
@@ -12,7 +13,7 @@ import org.javatuples.Pair;
  *
  */
 public class FastaReader {
-	private ArrayList<Pair<Integer, String>> entries = new ArrayList<Pair<Integer, String>>();
+	private HashMap<Integer, String> entries = new HashMap<Integer, String>();
 	
 	/**
 	 * Initializes object with the fasta object
@@ -28,7 +29,7 @@ public class FastaReader {
 				if (id == null) break;
 				id = id.substring(1);
 				seq = reader.readLine();
-				entries.add(new Pair<Integer, String>(id.hashCode(), seq));
+				entries.put(id.hashCode()*2, seq);
 			}
 			reader.close();
 		} catch (IOException e) {
@@ -40,7 +41,7 @@ public class FastaReader {
 	/**
 	 * @returns - a collection of read sequences
 	 */
-	public ArrayList<Pair<Integer, String>> getEntries() {
+	public HashMap<Integer, String> getEntries() {
 		return entries;
 	}
 }
