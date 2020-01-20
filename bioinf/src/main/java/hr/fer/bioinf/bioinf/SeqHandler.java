@@ -12,7 +12,9 @@ public class SeqHandler {
 	}
 
 	public void addSequences(HashMap<Integer, String> entries, Type type) {
+		int i = 0;
 		for (int key : entries.keySet()) {
+			System.out.println(++i);
 			ids_type.put(key, type);
 			this.entries.put(key, entries.get(key));
 			

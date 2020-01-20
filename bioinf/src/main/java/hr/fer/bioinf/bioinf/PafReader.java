@@ -34,6 +34,7 @@ public class PafReader {
 				if (!entry.valid()) continue;
 				entries.add(entry);
 			}
+			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

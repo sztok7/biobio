@@ -71,13 +71,18 @@ public class PafEntry {
 	}
 	
 	public boolean valid() {
-		// TODO Auto-generated method stub
-		return false;
+		return getRelations() != Relation.FIRST_CONTAIN && getRelations() != Relation.SECOND_CONTAIN;
+	}
+
+	private Relation getRelations() {
+		if (start[0] <= start[1] && len[0] - end[0] <= len[1] - end[1]) return Relation.FIRST_CONTAIN;
+		if (start[0] >= start[1] && len[0] - end[0] >= len[1] - end[1]) return Relation.SECOND_CONTAIN;
+		if (start[0] > start[1]) return Relation.FTOS_OVER;
+		return Relation.STOF_OVER;
 	}
 
 	public Pair<Integer, Integer> key() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Pair<Integer, Integer>(ids[0], ids[1]);
 	}
 
 }
