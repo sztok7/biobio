@@ -34,6 +34,10 @@ public class Main {
 		graph = mergeGraphs(graph, cro.getGraph());
 		System.out.println("Merged cr graph");
 		
+		DfsPathGenerator dfs = new DfsPathGenerator(graph, seq);
+		HashMap<Pair<Integer, Integer>, ArrayList<Path>> paths = new HashMap<Pair<Integer, Integer>, ArrayList<Path>>();
+		paths = dfs.generatePath();
+
 		System.out.println("gg");
 	}
 
