@@ -2,7 +2,6 @@ package hr.fer.bioinf.bioinf;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 public class Main {
 
@@ -35,9 +34,9 @@ public class Main {
 		graph = mergeGraphs(graph, cro.getGraph());
 		System.out.println("Merged cr graph");
 		
-		for (Entry<Integer, ArrayList<Edge>> en : graph.entrySet()) {
-			System.out.println(en.getKey() + " " + en.getValue());
-		}
+		System.out.println(graph.size());
+		
+		System.out.println("gg");
 	}
 
 	private static HashMap<Integer, ArrayList<Edge>> mergeGraphs(HashMap<Integer, ArrayList<Edge>> graph,

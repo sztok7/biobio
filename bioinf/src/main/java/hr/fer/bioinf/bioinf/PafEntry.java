@@ -9,7 +9,7 @@ public class PafEntry {
 
 	public PafEntry(String[] ids, int[] len, int[] start, int[] end, String orientation, double similarity) {
 		for (int i = 0; i < 2; i++) {
-			this.ids[i] = ids[i].hashCode();
+			this.ids[i] = ids[i].hashCode()*2;
 		}
 		this.len = len;
 		this.start = start;
