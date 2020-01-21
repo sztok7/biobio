@@ -34,8 +34,6 @@ public class Main {
 		graph = mergeGraphs(graph, cro.getGraph());
 		System.out.println("Merged cr graph");
 		
-		System.out.println(graph.size());
-		
 		System.out.println("gg");
 	}
 
