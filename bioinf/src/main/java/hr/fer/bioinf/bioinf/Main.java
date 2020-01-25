@@ -3,6 +3,8 @@ package hr.fer.bioinf.bioinf;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.javatuples.Pair;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -34,11 +36,17 @@ public class Main {
 		graph = mergeGraphs(graph, cro.getGraph());
 		System.out.println("Merged cr graph");
 		
-		DfsPathGenerator dfs = new DfsPathGenerator(graph, seq);
-		HashMap<Pair<Integer, Integer>, ArrayList<Path>> paths = new HashMap<Pair<Integer, Integer>, ArrayList<Path>>();
-		paths = dfs.generatePath();
-
-		System.out.println("gg");
+		System.out.println(graph.size());
+		
+		DfsPathGenerator path_generator = new DfsPathGenerator(graph, seq);
+		HashMap<Pair<Integer, Integer>, ArrayList<Path>> paths = path_generator.generatePaths();
+		
+		System.out.println(paths.size());
+		
+		PathExtractor path_extractor = new PathExtractor();
+		PathJoiner path_joiner = new PathJoiner(seq);
+		path_joiner.constructSolution(path_extractor.extractPaths(paths));
+		path_joiner.outputSolutions("/home/filip/Desktop/biobioinf/EColisynthetic/dna.sqn");
 	}
 
 	private static HashMap<Integer, ArrayList<Edge>> mergeGraphs(HashMap<Integer, ArrayList<Edge>> graph,
