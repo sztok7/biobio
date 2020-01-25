@@ -10,8 +10,12 @@ import java.util.ArrayList;
  *
  */
 public class Path {
-	int length = 0;
+	int length;
 	ArrayList<Integer> vertices = new ArrayList<Integer>(), extension_lengths = new ArrayList<Integer>();
+	
+	public Path() {
+		this.length = 0;
+	}
 	
 	public Path (int length, ArrayList<Integer> vertices, ArrayList<Integer> extension_lengths) {
 		this.length = length;

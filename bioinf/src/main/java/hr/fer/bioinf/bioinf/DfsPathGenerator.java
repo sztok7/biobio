@@ -19,7 +19,14 @@ public class DfsPathGenerator {
 		this.seq = seq;
 	}
 	
-	public void addPath(Path path) {
+	public HashMap<Pair<Integer, Integer>, ArrayList<Path>> generatePaths() {
+		for(int id : seq.getAllByType(Type.CONTIG)) {
+			startDfsGreedy(id);
+		}
+		return paths;
+	}
+	
+	private void addPath(Path path) {
 		Pair<Integer, Integer> key = new Pair<Integer, Integer>(path.vertices.get(0), path.vertices.get(path.vertices.size() - 1));
 		ArrayList<Path> containedPaths = new ArrayList<Path>();
 		if (paths.containsKey(key)) {
@@ -27,13 +34,6 @@ public class DfsPathGenerator {
 		}
 		containedPaths.add(path);
 		paths.put(key, containedPaths);
-	}
-	
-	public HashMap<Pair<Integer, Integer>, ArrayList<Path>> generatePaths() {
-		for(int id : seq.getAllByType(Type.CONTIG)) {
-			startDfsGreedy(id);
-		}
-		return paths;
 	}
 	
 	private void startDfsGreedy(int id) {
