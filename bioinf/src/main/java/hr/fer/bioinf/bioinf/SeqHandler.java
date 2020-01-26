@@ -7,28 +7,23 @@ public class SeqHandler {
 	private HashMap<Integer, String> entries = new HashMap<Integer, String>();
 	private HashMap<Integer, Type> ids_type = new HashMap<Integer, Type>();
 
-	public SeqHandler() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public void addSequences(HashMap<Integer, String> entries, Type type) {
+		this.entries.putAll(entries);
 		for (int key : entries.keySet()) {
 			ids_type.put(key, type);
-			this.entries.put(key, entries.get(key));
-			
-			int rev_id = reverseId(key);
-			ids_type.put(rev_id, type);
-			this.entries.put(rev_id, conjugateAndReverse(entries.get(key)));
+			ids_type.put(reverseId(key), type);
+			this.entries.put(reverseId(key), complementAndReverse(entries.get(key)));
 		}
-		
+
 	}
-	
+
 	public Type getType(Integer id) {
-		if (ids_type.containsKey(id)) return ids_type.get(id);
+		if (ids_type.containsKey(id))
+			return ids_type.get(id);
 		System.err.println("No such id");
 		return null;
 	}
-	
+
 	public ArrayList<Integer> getAllByType(Type type) {
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		for (int i : ids_type.keySet()) {
@@ -38,11 +33,11 @@ public class SeqHandler {
 		}
 		return list;
 	}
-	
+
 	public int getLength(int id) {
 		return entries.get(id).length();
 	}
-	
+
 	public String reconstructPath(Path path) {
 		String dna = "", new_strain;
 		for (int i = 0; i < path.vertices.size(); i++) {
@@ -53,34 +48,32 @@ public class SeqHandler {
 		return dna;
 	}
 
-	private String conjugateAndReverse(String strand) {
-		String reverse = new StringBuilder(strand).reverse().toString();
+	private String complementAndReverse(String strand) {
 		String new_strand = "";
-		for (int i = 0; i < reverse.length(); i++) {
-			switch (reverse.charAt(i)) {
-				case 'A':
-					new_strand += 'T';
-					break;
-				case 'T':
-					new_strand += 'A';
-					break;
-				case 'G':
-					new_strand += 'C';
-					break;
-				case 'C':
-					new_strand += 'G';
-					break;
-				default:
-					System.err.println(strand + " " + reverse.charAt(i));
+		for (int i = strand.length() - 1; i > -1; i--) {
+			switch (strand.charAt(i)) {
+			case 'A':
+				new_strand += "T";
+				break;
+			case 'T':
+				new_strand += "A";
+				break;
+			case 'G':
+				new_strand += "C";
+				break;
+			case 'C':
+				new_strand += "G";
+				break;
+			default:
+				System.err.println(strand + " " + strand.charAt(i));
 			}
 		}
 		return new_strand;
-		
+
 	}
 
 	private int reverseId(int id) {
 		return id ^ 1;
 	}
-
 
 }

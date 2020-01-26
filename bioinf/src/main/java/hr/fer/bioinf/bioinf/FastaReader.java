@@ -11,9 +11,10 @@ import java.util.HashMap;
  */
 public class FastaReader {
 	private HashMap<Integer, String> entries = new HashMap<Integer, String>();
-	
+
 	/**
 	 * Initializes object with the fasta object
+	 * 
 	 * @param path - path to fasta file
 	 */
 	public FastaReader(String path) {
@@ -23,22 +24,24 @@ public class FastaReader {
 			String id, seq;
 			while (true) {
 				id = reader.readLine();
-				if (id == null) break;
+				if (id == null)
+					break;
 				id = id.substring(1);
 				seq = reader.readLine();
-				entries.put(id.hashCode()*2, seq);
+				entries.put(id.hashCode() * 2, seq);
 			}
 			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	/**
 	 * @returns - a collection of read sequences
 	 */
 	public HashMap<Integer, String> getEntries() {
+		System.out.println("Size of entries: " + entries.size());
 		return entries;
 	}
 }

@@ -10,12 +10,26 @@ public class PafEntry {
 	public PafEntry(String[] ids, int[] len, int[] start, int[] end, String orientation, double similarity) {
 		for (int i = 0; i < 2; i++) {
 			this.ids[i] = ids[i].hashCode()*2;
+			this.len[i] = len[i];
+			this.start[i] = start[i];
+			this.end[i] = end[i];
 		}
-		this.len = len;
-		this.start = start;
-		this.end = end;
-		this.orientation = orientation;
 		this.similarity = similarity;
+		this.orientation = orientation;
+		
+		if (getRelations() == Relation.STOF_OVER) {
+			this.ids = swap(this.ids);
+			this.start = swap(this.start);
+			this.end = swap(this.end);
+			this.len = swap(this.len);
+		}
+	}
+	
+	private int[] swap(int[] arr) {
+		int temp = arr[0];
+		arr[0] = arr[1];
+		arr[1] = temp;
+		return arr;
 	}
 
 	public int[] getIds() {
@@ -71,7 +85,8 @@ public class PafEntry {
 	}
 	
 	public boolean valid() {
-		return getRelations() != Relation.FIRST_CONTAIN && getRelations() != Relation.SECOND_CONTAIN;
+		Relation rel = getRelations();
+		return (rel != Relation.FIRST_CONTAIN) && (rel != Relation.SECOND_CONTAIN);
 	}
 
 	private Relation getRelations() {

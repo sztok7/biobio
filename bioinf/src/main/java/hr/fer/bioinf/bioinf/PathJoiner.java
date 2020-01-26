@@ -16,7 +16,7 @@ public class PathJoiner {
 	ArrayList<Integer> contigs = new ArrayList<Integer>();
 	
 	HashSet<Integer> visited = new HashSet<Integer>();
-	HashMap<Integer, Boolean> solved = new HashMap<Integer, Boolean>();
+	ArrayList<Integer> solved = new ArrayList<Integer>();
 	ArrayList<Path> scaffolds = new ArrayList<Path>();
 	int solution_included_contigs;
 	Path solution = new Path();
@@ -29,25 +29,26 @@ public class PathJoiner {
 		this.generated_paths = generated_paths;
 		
 		contigs = seq.getAllByType(Type.CONTIG);
-		Path best_scaffold = new Path(), path = new Path();
-		int best_scaffold_included;
+		Path best_scaffold, path;
 		while (true) {
-			best_scaffold_included = -1;
+			best_scaffold = new Path();
+			int best_scaffold_included = -1;
 			for (int contig : contigs) {
-				if (solved.get(contig)) continue;
+				if (solved.contains(contig)) continue;
 				
 				solution_included_contigs = 0;
+				path = new Path();
 				path.length = seq.getLength(contig);
 				path.vertices = new ArrayList<Integer>(Arrays.asList(contig));
 				path.extension_lengths = new ArrayList<Integer>(Arrays.asList(path.length));
 				
 				dfsConnectContigs(path, contig, 1);
+				System.out.println("Constructed potential scaffold with length: " + solution.length + ", containing " + solution.vertices.size() + " vertices:");
+				for (int v : solution.vertices) {
+					if (seq.getType(v) == Type.CONTIG) System.out.print(v + " ");
+				}
+				System.out.print("\n");
 			}
-			System.out.println("Constructed potential scaffold with length: " + solution.length + ", containing " + solution.vertices.size() + " vertices:");
-			for (int v : solution.vertices) {
-				if (seq.getType(v) == Type.CONTIG) System.out.print(v + " ");
-			}
-			System.out.print("\n");
 			
 			if (solution_included_contigs > best_scaffold_included) {
 				best_scaffold_included = solution_included_contigs;
@@ -58,8 +59,8 @@ public class PathJoiner {
 			
 			for (int visited_v : best_scaffold.vertices) {
 				if (seq.getType(visited_v) == Type.CONTIG) {
-					solved.replace(visited_v, true);
-					solved.replace(visited_v^1,true);
+					solved.add(visited_v);
+					solved.add(visited_v^1);
 				}
 			}
 			
@@ -97,17 +98,15 @@ public class PathJoiner {
 		if (added_length > OVERHANG_ADDITIONS_PERCENTAGE/100.0*path.length) return;
 		
 		visited.add(current);
-		
-		Path new_path = new Path();
-		
+				
 		for (int next : contigs) {
-			if (solved.get(next)) continue;
+			if (solved.contains(next)) continue;
 			if (visited.contains(next)) continue;
 			if (visited.contains(next^1)) continue;
 			
 			if (!generated_paths.containsKey(new Pair<Integer, Integer>(current, next))) continue;
-			new_path = path;
-			new_path = mergePaths(new_path, generated_paths.get(new Pair<Integer, Integer>(current, next)));
+			Path new_path = new Path();
+			new_path = mergePaths(path, generated_paths.get(new Pair<Integer, Integer>(current, next)));
 			
 			dfsConnectContigs(new_path, next, included_contigs + 1);
 		}
@@ -116,14 +115,14 @@ public class PathJoiner {
 			solution = path;
 			solution_included_contigs = included_contigs;
 		}
+		
+		visited.remove(current);
 	}
 
 	private Path mergePaths(Path path, Path new_path) {
 		path.length += new_path.length;
-		for (int i = 1; i < new_path.vertices.size(); i++) {
-			path.vertices.add(new_path.vertices.get(i));
-			path.extension_lengths.add(new_path.extension_lengths.get(i));
-		}
+		path.vertices.addAll(new_path.vertices);
+		path.extension_lengths.addAll(new_path.extension_lengths);
 		path.length -= new_path.extension_lengths.get(0);
 		return path;
 	}

@@ -3,6 +3,7 @@
  */
 package hr.fer.bioinf.bioinf;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -10,12 +11,8 @@ import java.util.Set;
  *
  */
 public class DfsState {
-	Set<Integer> visited;
-	Path current_path;
-	
-	public DfsState() {
-		
-	}
+	Set<Integer> visited = new HashSet<Integer>();
+	Path current_path = new Path();
 	
 	public DfsState visit(Edge edge) {
 		visited.add(edge.getDest());

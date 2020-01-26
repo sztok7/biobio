@@ -32,13 +32,12 @@ public class Main {
 		
 		HashMap<Integer, ArrayList<Edge>> graph = new HashMap<Integer, ArrayList<Edge>>();
 		graph = mergeGraphs(graph, rro.getGraph());
-		System.out.println("Merged rr graph");
 		graph = mergeGraphs(graph, cro.getGraph());
-		System.out.println("Merged cr graph");
 		
-		System.out.println(graph.size());
+		System.out.println("Graph size: " + graph.size());
 		
 		DfsPathGenerator path_generator = new DfsPathGenerator(graph, seq);
+		System.out.println("DfsPathGenerator made");
 		HashMap<Pair<Integer, Integer>, ArrayList<Path>> paths = path_generator.generatePaths();
 		
 		System.out.println(paths.size());
@@ -46,15 +45,13 @@ public class Main {
 		PathExtractor path_extractor = new PathExtractor();
 		PathJoiner path_joiner = new PathJoiner(seq);
 		path_joiner.constructSolution(path_extractor.extractPaths(paths));
-		path_joiner.outputSolutions("/home/filip/Desktop/biobioinf/EColisynthetic/dna.sqn");
+		path_joiner.outputSolutions("/home/filip/Desktop/biobioinf/EColisynthetic/dna.fasta");
 	}
 
 	private static HashMap<Integer, ArrayList<Edge>> mergeGraphs(HashMap<Integer, ArrayList<Edge>> graph,
 			HashMap<Integer, ArrayList<Edge>> graph2) {
-		HashMap<Integer, ArrayList<Edge>> new_graph = new HashMap<Integer, ArrayList<Edge>>();
-		new_graph.putAll(graph);
-		new_graph.putAll(graph2);
-		return new_graph;
+		graph.putAll(graph2);
+		return graph;
 	}
 
 }

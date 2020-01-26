@@ -14,7 +14,6 @@ public class Path {
 	ArrayList<Integer> vertices = new ArrayList<Integer>(), extension_lengths = new ArrayList<Integer>();
 	
 	public Path() {
-		this.length = 0;
 	}
 	
 	public Path (int length, ArrayList<Integer> vertices, ArrayList<Integer> extension_lengths) {
