@@ -50,15 +50,16 @@ public class PathJoiner {
 				System.out.print("\n");
 			}
 			
+			if (best_scaffold_included == solution_included_contigs) break;
+			
 			if (solution_included_contigs > best_scaffold_included) {
 				best_scaffold_included = solution_included_contigs;
 				best_scaffold = solution;
 			}
 			
-			if (best_scaffold_included == -1) break;
 			
 			for (int visited_v : best_scaffold.vertices) {
-				if (seq.getType(visited_v) == Type.CONTIG) {
+				if (seq.getType(visited_v) == Type.CONTIG && !solved.contains(visited_v)) {
 					solved.add(visited_v);
 					solved.add(visited_v^1);
 				}
@@ -104,7 +105,9 @@ public class PathJoiner {
 			if (visited.contains(next)) continue;
 			if (visited.contains(next^1)) continue;
 			
+			// no connecting path
 			if (!generated_paths.containsKey(new Pair<Integer, Integer>(current, next))) continue;
+			
 			Path new_path = new Path();
 			new_path = mergePaths(path, generated_paths.get(new Pair<Integer, Integer>(current, next)));
 			

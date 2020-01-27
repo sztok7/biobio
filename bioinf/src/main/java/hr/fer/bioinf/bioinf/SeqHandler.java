@@ -11,8 +11,8 @@ public class SeqHandler {
 		this.entries.putAll(entries);
 		for (int key : entries.keySet()) {
 			ids_type.put(key, type);
-			ids_type.put(reverseId(key), type);
-			this.entries.put(reverseId(key), complementAndReverse(entries.get(key)));
+			/*ids_type.put(reverseId(key), type);
+			this.entries.put(reverseId(key), complementAndReverse(entries.get(key)));*/
 		}
 
 	}

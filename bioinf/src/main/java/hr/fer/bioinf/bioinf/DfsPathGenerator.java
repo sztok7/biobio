@@ -103,9 +103,9 @@ public class DfsPathGenerator {
 			return true;
 		}
 
-		if (!graph.containsKey(from_edge.getDest()))
+		if (!graph_sorted_os.containsKey(from_edge.getDest()))
 			return false;
-		for (Edge edge : graph.get(from_edge.getDest())) {
+		for (Edge edge : graph_sorted_os.get(from_edge.getDest())) {
 			if (!state.been(edge.getDest()) && dfsOs(edge)) {
 				return true;
 			}
@@ -122,6 +122,8 @@ public class DfsPathGenerator {
 			return true;
 		}
 
+		if (!graph_sorted_es.containsKey(from_edge.getDest()))
+			return false;
 		for (Edge edge : graph_sorted_es.get(from_edge.getDest())) {
 			if (!state.been(edge.getDest()) && dfsEs(edge)) {
 				return true;

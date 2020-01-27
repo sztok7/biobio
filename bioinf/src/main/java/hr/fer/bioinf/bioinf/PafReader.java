@@ -74,9 +74,9 @@ public class PafReader {
 
 			id0 = entry.getIds()[0];
 			id1 = entry.getIds()[1];
-			if (entry.getContinuation() == Continuation.CONJUGATED) {
+			/*if (entry.getContinuation() == Continuation.CONJUGATED) {
 				id1 = reverseId(id1);
-			}
+			}*/
 			createScoreEdges(id0, id1, ol, sumoh, el, si);
 		}
 		return graph;
@@ -98,10 +98,10 @@ public class PafReader {
 			list.addAll(graph.get(reverseId(to)));
 			list.add(new Edge(reverseId(from), os, os + el[0]/2.0 - sumoh/2.0, el[0]));
 			graph.replace(reverseId(to), list);
-		} else {
+		} /*else {
 			list.add(new Edge(reverseId(from), os, os + el[0]/2.0 - sumoh/2.0, el[0]));
 			graph.put(reverseId(to), list);
-		}
+		}*/
 	}
 
 	private int reverseId(int id1) {
